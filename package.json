@@ -1,0 +1,19 @@
+{
+  "name": "node-alan-utils",
+  "version": "0.0.4",
+  "description": "node utils",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Allen-Wei/node-alan-utils.git"
+  },
+  "author": "Alan Wei",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Allen-Wei/node-alan-utils/issues"
+  },
+  "homepage": "https://github.com/Allen-Wei/node-alan-utils#readme"
+}
