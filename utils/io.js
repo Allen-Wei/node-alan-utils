@@ -1,8 +1,8 @@
-﻿
-
-var fs = require("fs");
+﻿var fs = require("fs"),
+	utils = require("./utils.js");
 
 var io = {
+	
 	/**
 	 * 合并路径
 	 * @returns {} 
@@ -28,17 +28,59 @@ var io = {
 		return allPaths.join("/");
 	},
 	
-
+	/**
+	 * 合并多个文件至单个文件
+	 * @param {string[]} srcs 多个源文件地址
+	 * @param {string} dest 目标文件地址
+	 * @param {boolean} keepSrc 
+	 * @returns {} 
+	 */
+	concatFiles: function (srcs, dest, keepSrc) {
+		var option = {
+			keep: keepSrc,
+			writeFlags: "a"
+		};
+		srcs.forEach(function (src) {
+			io.moveFile(src, dest, option);
+		});
+		return this;
+	},
 	
 	/**
-	 * 删除目录
-	 * @param {string} dir 目录
-	 * @param {boolean} force 是否强制(递归)删除
-	 * @returns {this} 
+	 * 拷贝/移动文件
+	 * @param {string} src 源文件
+	 * @param {string} dest 目标文件
+	 * @param {object} options {keep: boolean, append: bolean}
+	 * @returns {} 
 	 */
+	moveFile: function (src, dest, options) {
+		var defOpts = {
+			keep: false,
+			writeFlags: "w"
+		};
+		utils.extend(defOpts, options);
+		
+		var read = fs.createReadStream(src);
+		
+		var writeOpt = {
+			flags: options.writeFlags
+		}
+		var write = fs.createWriteStream(dest, writeOpt);
+		read.pipe(write);
+		if (!options.keep) {
+			fs.unlinkSync(src);
+		}
+		return this;
+	},
+	
+	/**
+     * 删除目录
+     * @param {string} dir 目录
+     * @param {boolean} force 是否强制(递归)删除
+     * @returns {this} 
+     */
 	rm: function (dir, force) {
 		dir = this.combinePath(dir);
-		
 		
 		if (!force) {
 			fs.rmdirSync(dir);
@@ -54,7 +96,6 @@ var io = {
 			} else {
 				fs.unlinkSync(path);
 			}
-
 		});
 		io.rm(dir, false);
 		return this;
@@ -128,8 +169,6 @@ var io = {
 		dir.isFile = dirStat.isFile();
 		dir.stat = dirStat;
 		
-		
-		
 		dir.children = [];
 		
 		for (var index = 0; index < fileAndDirs.length; index++) {
@@ -153,9 +192,9 @@ var io = {
 			}
 		}
 		
-		
 		return dir;
 	}
+
 };
 
 module.exports = io;
