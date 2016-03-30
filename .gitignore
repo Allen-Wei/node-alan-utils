@@ -37,3 +37,4 @@ node_modules
 .ntvs_analysis.dat
 
 *.njsproj
+*.sln
