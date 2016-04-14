@@ -1,21 +1,37 @@
-﻿
-var io = require("./index.js").io;
+﻿console.log("run test.js...");
 
-var root = { path : "D:\\WebSites\\Autohome.Dealer.WebChat.WebApp\\release" }
+var fs = require("fs"), 
+	io = require("./utils/io.js");
 
-var fs = require("fs");
 
-//var read1 = fs.createReadStream("D:\\WebSites\\AngularJS\\README.md");
-//var read2 = fs.createReadStream("D:\\WebSites\\AngularJS\\index.html");
-//var write = fs.createWriteStream("D:\\write.html", { 'flags': 'a' });
-//read1.pipe(write);
-//read2.pipe(write);
-//fs.unlinkSync("D:\\WebSites\\Autohome.Dealer.WebChat.WebApp\\release\\app.html");
+console.log("combinePath: ", io.combinePath("./test/backup", "/dir1/", "/dir2", "dir3/"));
 
+
+console.log("copy: ");
+io.copy("./test/example", "./test/dest/example");
+
+
+
+io.getFileAndDirs("./test/dest/example", true, function (state) {
+	console.log("./test/dest/example dir or file: ", state.path);
+	return true;
+});
+
+
+console.log("make dir: ");
+io.mkdir("./test/dest/mkdir/hello/world/toping/bing");
+
+console.log("copy file: ");
+io.copy("./test/dest/example/app.js", "./test/dest/mkdir");
+io.copy("./test/dest/example/app.js", "./test/dest/mkdir/index.js");
+io.copy("./test/dest/example/app.js", "./test/dest/mkdir/home.js");
+
+console.log("concat file: ");
 io.concatFiles([
-	"D:\\WebSites\\angular-app\\server\\config.js"
-	, "D:\\WebSites\\angular-app\\server\\gruntFile.js"
-	, "D:\\WebSites\\angular-app\\server\\initDB.js"
-], "D:/concat.html", true);
+	"./test/dest/mkdir/app.js",
+	"./test/dest/mkdir/index.js",
+	"./test/dest/mkdir/home.js"
+], "./test/dest/mkdir/concat.js", true);
 
-console.log("complete");
+
+console.log("complete.");

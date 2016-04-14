@@ -1,0 +1,9 @@
+﻿<footer class="nav-footer">
+    <ul>
+        <li><a href="#/" ng-class="{active: main.isActived('^/\\w+/home$')}"><i></i>首页</a></li>
+        <li><a href="#/faq/guid" ng-class="{active: main.isActived('guid')}"><i class="guide"></i>用车指南</a></li>
+        <li><a href="#/faq/insurance" ng-class="{active: main.isActived('insurance')}"><i class="insurance"></i>买保险</a></li>
+        <li><a href="#/faq/loan" ng-class="{active: main.isActived('loan')}"><i class="loan"></i>贷款说明</a></li>
+        <li><a href="javascript:void(0);" ng-class="{active: main.isActived('/\\w+/center')}" ng-click="main.links.personal()"><i class="personal"></i>个人中心</a></li>
+    </ul>
+</footer>

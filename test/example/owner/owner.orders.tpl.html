@@ -1,0 +1,31 @@
+﻿<div>
+    <nav>我是车主</nav>
+    <div ng-if="!!main.orders.length">
+        <ul class="personal-list">
+            <li ng-repeat="order in main.orders">
+                <div class="act-title">
+                    <span>提交时间：{{order.HandleTime}}</span>
+                    <span class="state-{{order.State}}">{{order.StateDesc}}</span>
+                </div>
+                <dl class="act-info">
+                    <dt>服务类型：</dt>
+                    <dd>询价</dd>
+                    <dt>车型信息：</dt>
+                    <dd>{{order.SpecName}}</dd>
+                    <dt>提交时间：</dt>
+                    <dd>{{order.CreateTime}}</dd>
+                    <dt>服务顾问：</dt>
+                    <dd>{{order.SalesName}}<a href="tel:{{order.SalesPhone}}">拨打电话</a></dd>
+                </dl>
+            </li>
+
+        </ul>
+    </div>
+
+    <div ng-if="!main.orders.length">
+    </div>
+
+    <nav-footer></nav-footer>
+</div>
+
+

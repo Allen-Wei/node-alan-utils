@@ -1,0 +1,30 @@
+﻿
+
+    <div ng-if="main.screen === 'buyer'">
+        <select-series on-complete="main.selectCompletely" on-cancel="main.selectCancel" series-name="main.wechat.NickName"></select-series>
+    </div>
+
+    <div ng-if="main.screen === 'home'">
+        <nav>现代京现荣华4S店</nav>
+
+        <!-- start 欢迎页 -->
+        <section class="seller-welcome">
+            <img src="img/bg-cont.jpg">
+            <div class="welcome-cont">
+                <p>{{main.wechat.NickName}}4S店</p>
+                <p>欢迎您的光临!</p>
+                <p>我们有什么可以帮您？</p>
+                <p>
+                    <a class="btn btn-green" href="javascript:void(0);" ng-click="main.goTo(main.categories[0])">我想买车</a>
+                </p>
+                <p>
+                    <a class="btn btn-white" href="javascript:void(0);" ng-click="main.goTo(main.categories[1])">我是车主</a>
+                </p>
+            </div>
+        </section>
+        <!-- end 欢迎页 -->
+
+        
+    </div>
+
+

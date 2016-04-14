@@ -27,5 +27,23 @@ module.exports = {
 			var value = data[g1];
 			return typeof (value) === "function" ? value.apply(data, paras) : value;
 		});
+	},
+	
+	/**
+	 * 获取对象的属性值
+	 * @param {object} obj 对象
+	 * @param {string} propNames 属性名(递归属性以点号分隔)
+	 * @returns {object}
+	 */
+	query: function (obj, propNames) {
+		if (!obj) return obj;
+		
+		var properties = (propNames || "").split(".");
+		if (properties.length <= 0) return obj;
+		if (properties.length === 1) return obj[properties[0]];
+		
+		var firstProp = properties.splice(0, 1);
+		return Object.query(obj[firstProp], properties.join("."));
 	}
+
 };

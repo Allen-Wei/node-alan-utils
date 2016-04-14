@@ -1,0 +1,41 @@
+﻿<div>
+
+
+    <div ng-if="main.screen !== 'home'">
+        <select-series on-complete="main.selectCompletely" on-cancel="main.selectCancel" series-name="main.user.wechat.NickName"></select-series>
+    </div>
+
+
+    <div ng-if="main.screen === 'home'">
+
+        <nav>我是车主</nav>
+        <section class="banner">
+            <img ng-src="{{main.seriesCar.series.imageUrl}}" ng-click="main.screen = 'series'" alt="暂无车系图片" />
+            <p class="bg-opa car-title">{{main.seriesCar.series.seriesName}} {{main.seriesCar.car.SpecName}}</p>
+            <div class="bg-opa user-info">
+                <dl>
+                    <dt><img ng-src="{{main.user.info.headImgUrl}}" alt="用户头像" /></dt>
+                    <dd>{{main.user.info.userName || main.user.info.nickName}}</dd>
+                    <dd class="car-num">{{main.user.info.carNo}}</dd>
+                </dl>
+                <div class="tab-btn">
+                    <span class="active" id="owner">车主</span>
+                    <span id="buyer" ng-click="main.changeTypeTo('buyer')">买车</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="car-tool" style="display: block">
+            <ul>
+                <li><a href="#/"><img src="img/weixiu.png" alt="预约维修"></a></li>
+                <li><a href="#/"><img src="img/baoyang.png" alt="预约保养"></a></li>
+                <li><a href="#/owner/home/games/list"><img src="img/activies.png" alt="活动专区"></a></li>
+            </ul>
+        </section>
+
+        <nav-footer></nav-footer>
+
+    </div>
+</div>
+
+

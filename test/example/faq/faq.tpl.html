@@ -1,0 +1,15 @@
+﻿
+<nav>{{main.navText}}</nav>
+<div>{{main.screen}}</div>
+
+<div ng-if="main.screen==='guid'">
+    用车指南
+</div>
+<div ng-if="main.screen==='insurance'">
+    买保险
+</div>
+<div ng-if="main.screen==='loan'">
+    贷款说明
+</div>
+
+<nav-footer></nav-footer>

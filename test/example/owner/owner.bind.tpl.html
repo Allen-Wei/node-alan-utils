@@ -1,0 +1,48 @@
+﻿<div>
+    
+<!-- select series and car -->
+<div ng-if="main.screen === 'series'">
+    <select-series on-complete="main.selectCompletely" on-cancel="main.selectCancel" series-name="main.wechat.NickName"></select-series>
+</div>
+
+<div ng-if="main.screen === 'forms'">
+
+    <nav>{{main.wechat.NickName}}</nav>
+
+    <div ng-click="main.screen = 'series'" ng-if="!main.car">
+        <h3>点击此处选择车型</h3>
+    </div>
+
+
+    <!-- start 车型信息 -->
+    <section class="seller-carcont" ng-if="!!main.car">
+        <div class="pic" ng-click="main.screen = 'series'"><img ng-src="{{main.series.imageUrl}}"></div>
+        <div class="info">
+            <p>{{main.series.seriesName}}</p>
+            <p class="price">{{main.series.minPrice | convertMoney}} - {{main.series.maxPrice | convertMoney}}</p>
+        </div>
+    </section>
+
+    <section class="seller-box mt-8">
+        <div class="box-cont">
+            <form ng-submit="main.form.submit()" name="OwnerBindForm">
+                <dl class="form-dl">
+                    <dt>车主名：</dt>
+                    <dd><input class="inp-text" type="text" ng-model="main.form.name" required placeholder="车主姓名" /></dd>
+                    <dt>手机号：</dt>
+                    <dd><input class="inp-text" type="text" placeholder="车主手机号码" ng-model="main.form.phone" ng-pattern="/^\d{11}$/" maxlength="11" required /></dd>
+                    <dt>车牌号：</dt>
+                    <dd>
+                        <select class="select" ng-options="loc.value for loc in main.carNoLocs" ng-model="main.form.carNoLoc" style="display:none;"></select>
+                        <input class="inp-text" type="text" ng-model="main.form.carNo" required placeholder="车牌号码" />
+                    </dd>
+                </dl>
+                <p class="btnlink"><input type="submit" class="btn-green" value="确定" ng-disabled="OwnerBindForm.$invalid || !main.car" /></p>
+            </form>
+        </div>
+    </section>
+</div>
+
+
+
+</div>

@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
+    <title>微商汇 - 汽车之家</title>
+    <meta charset="utf-8" />
+    <link href="styles/style.css" rel="stylesheet" />
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="vendor/angularjs/angular.js"></script>
+    <script src="vendor/angularjs/angular-route.js"></script>
+    <!-- Utils -->
+    <script src="scripts/log.js"></script>
+    <script src="scripts/config.js"></script>
+    <script src="scripts/utils.js"></script>
+    <!-- End Utils -->
+    <!-- 启动 -->
+    <script src="app.js"></script>
+    <script src="routes/routes.js"></script>
+
+    <!-- Directives -->
+    <script src="directives/nav-footer.js"></script>
+    <script src="directives/select-series.js"></script>
+    <script src="directives/directives.js"></script>
+    <!-- End Directives -->
+    <!-- Filters -->
+    <script src="filters/filters.js"></script>
+    <script src="filters/convert-money.js"></script>
+    <script src="filters/pretty-date.js"></script>
+    <!-- End Filters -->
+    <!-- Services -->
+    <script src="services/services.js"></script>
+    <script src="services/shop.js"></script>
+    <script src="services/user.js"></script>
+    <script src="services/auth.js"></script>
+    <script src="services/analyse.js"></script>
+    <script src="services/activity.js"></script>
+    <script src="services/utils.js"></script>
+    <!-- End Services -->
+    <!-- Modules -->
+    <!-- 选择用户类型页面 -->
+    <script src="home/home.js"></script>
+
+    <!-- 车主 -->
+    <script src="owner/owner.js"></script>
+    <script src="owner/owner.bind.js"></script>
+    <script src="owner/owner.home.js"></script>
+    <script src="owner/owner.games.list.js"></script>
+    <script src="owner/owner.orders.js"></script>
+    <script src="owner/owner.center.js"></script>
+    <script src="owner/owner.activities.js"></script>
+
+    <!-- 买车 -->
+    <script src="buyer/buyer.js"></script>
+    <script src="buyer/buyer.home.js"></script>
+    <script src="buyer/buyer.orders.js"></script>
+    <script src="buyer/buyer.activities.js"></script>
+    <script src="buyer/buyer.center.js"></script>
+
+    <!-- FAQ: 用车指南, 买保险, 贷款说明 -->
+    <script src="faq/faq.js"></script>
+    <!-- End Modules -->
+
+    <style type="text/css">
+        input.ng-dirty.ng-invalid { border: 1px solid red !important; }
+        .seller-box .box-cont form .btnlink .btn-green[disabled] { background-color: #C0DE9A; }
+
+        .banner > img { min-height: 200px; }
+        .banner .user-info .tab-btn span { float: left; }
+        .seller-box .box-cont .carlistul li p:nth-of-type(2) span { width: 35%; }
+        .seller-box .box-cont form .form-dl dd:nth-of-type(3) .inp-text { width: 100%; }
+        .my-server a.not-link:after { content: ""; }
+
+        div.tips { font-size: 15px; font-family: 'Microsoft YaHei', sans-serif; }
+    </style>
+</head>
+<body ng-app="AutoHomeApp" ng-controller="BodyCtrl as body">
+    <div ng-view></div>
+</body>
+</html>

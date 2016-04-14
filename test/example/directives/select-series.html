@@ -1,0 +1,47 @@
+﻿<!-- 选择车系车型 指令 -->
+
+<div>
+    <nav>现代京现荣华4S店</nav>
+    <div ng-show="main.visible.screen === 'factories'">
+        <section class="seller-box" ng-repeat="factory in main.factories">
+            <h2 class="box-title"><span>{{factory.factoryName}}</span></h2>
+            <div class="box-cont">
+                <ul class="listul">
+                    <li ng-repeat="series in factory.series" ng-click="main.factoryClick(series)">
+                        <p class="pic"><img ng-src="{{series.imageUrl}}"></p>
+                        <p class="name"><a href="javascript:void(0);">{{series.seriesName}}</a></p>
+                    </li>
+
+                </ul>
+            </div>
+        </section>
+
+    </div>
+
+
+    <div ng-show="main.visible.screen === 'cars'">
+
+        <section class="seller-carcont">
+            <div class="pic"><img ng-src="{{main.selected.series.imageUrl}}"></div>
+            <div class="info">
+                <p>{{main.selected.series.seriesName}}</p>
+                <p class="price">{{main.selected.series.minPrice | convertMoney}}-{{main.selected.series.maxPrice | convertMoney}}</p>
+            </div>
+        </section>
+        <section class="seller-box mt-8">
+            <div class="box-cont">
+                <ul class="carlistul">
+                    <li ng-repeat="spec in main.cars.specials"  ng-click="main.carClick(spec)">
+                        <p><a href="javascript:void(0);"> {{spec.specName}}  </a></p>
+                        <p> <span>{{spec.baseName}}</span> <span>{{main.cars.transmissions}} </span><span>{{spec.price | convertMoney}}</span></p>
+                    </li>
+
+                </ul>
+            </div>
+        </section>
+
+
+    </div>
+</div>
+
+

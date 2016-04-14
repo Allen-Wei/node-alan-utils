@@ -1,0 +1,18 @@
+﻿
+<nav>我是车主</nav>
+
+<section class="discount" style="display: block;" ng-if="main.games.length">
+    <div class="navbar">
+        <span>活动列表</span>
+        <a ng-href="{{main.allPromotionsLink()}}">查看全部 <strong>&gt;</strong></a>
+    </div>
+    <div class="artice" ng-repeat="game in main.games">
+        <a href="{{game.Url}}">
+            <img src="http://www.baidu.com/favicon.ico" alt="{{game.ActivityName}}" />
+            <p>
+                {{game.ActivityName}}
+            </p>
+        </a>
+    </div>
+</section>
+<nav-footer></nav-footer>

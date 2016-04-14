@@ -1,0 +1,30 @@
+﻿
+<nav>我要买车</nav>
+<ul class="personal-list">
+    <li class="banner">
+        <div class="user-info">
+            <dl>
+                <dt><img ng-src="{{main.user.headImgUrl}}" alt=""></dt>
+                <dd class="user-ct">{{main.user.getName()}}</dd>
+            </dl>
+            <div class="tab-btn btn-grey">
+                <span id="owner">车主</span><span class="active" id="buyer">买车</span>
+            </div>
+            <span class="server-kind">服务类型：</span>
+        </div>
+    </li>
+    <li>
+        <ul class="my-server">
+            <li><a href="javascript:void(0);" class="not-link">我的服务顾问<span>{{main.salerName}}</span></a></li>
+            <li><a href="#/buyer/center/orders">我的询价订单</a></li>
+            <li><a href="#/buyer/center/activities">我参与的活动</a></li>
+        </ul>
+    </li>
+    <li>
+        <ul class="my-server">
+            <li><a href="javascript:void(0)">投诉</a></li>
+        </ul>
+    </li>
+</ul>
+
+<nav-footer></nav-footer>

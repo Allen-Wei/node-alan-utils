@@ -1,0 +1,26 @@
+﻿<!--
+[{ "ActivityId":9,"ActivityName":"超级幸运星","AwardName":"劳斯莱斯","Prize":3,"WinPrize":"2016-04-07T14:39:17.69","Mobile":null,"Status":3}]
+ -->
+
+<nav>我是车主</nav>
+
+
+<ul class="personal-list" ng-if="main.awards.length">
+    <li ng-repeat="award in main.awards">
+        <dl class="act-info">
+            <dt>活动类型: </dt>
+            <dd>{{award.ActivityType}}</dd>
+            <dt>活动名称: </dt>
+            <dd>{{award.ActivityName}}</dd>
+            <dt>中奖信息: </dt>
+            <dd>{{award.PrizeDesc}}</dd>
+            <dt>领奖状态: </dt>
+            <dd>{{award.StatusDesc}}</dd>
+        </dl>
+    </li>
+</ul>
+
+<div ng-if="!main.awards.length">
+</div>
+
+<nav-footer></nav-footer>

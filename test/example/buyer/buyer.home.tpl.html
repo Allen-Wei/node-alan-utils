@@ -1,0 +1,51 @@
+﻿
+
+<div>
+
+
+    <div ng-if="main.screen !== 'home'">
+        <select-series on-complete="main.selectCompletely" on-cancel="main.selectCancel" series-name="main.user.wechat.NickName"></select-series>
+    </div>
+
+
+    <div ng-if="main.screen === 'home'">
+
+        <nav>我要买车</nav>
+
+        <section class="banner">
+            <img ng-src="{{main.seriesCar.series.imageUrl}}" ng-click="main.screen = 'series'" alt="车系图片" />
+            <p class="bg-opa car-title">{{main.seriesCar.series.seriesName}} {{main.seriesCar.car.SpecName}}</p>
+            <div class="bg-opa user-info">
+                <dl>
+                    <dt><img ng-src="{{main.user.info.headImgUrl}}" alt="用户头像" /></dt>
+                    <dd>{{main.user.info.nickName}}</dd>
+                    <dd class="car-num">{{main.user.info.carNo}}</dd>
+                </dl>
+                <div class="tab-btn">
+                    <span id="owner" ng-click="main.changeTypeTo('owner')">车主</span>
+                    <span class="active" id="buyer">买车</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="discount" style="display: block;" ng-if="main.promotions.length">
+            <div class="navbar">
+                <span>优惠促销</span>
+                <a ng-href="{{main.allPromotionsLink()}}">查看全部 <strong>&gt;</strong></a>
+            </div>
+            <div class="artice" ng-repeat="promotion in main.promotions">
+                <a href="{{promotion.url}}">
+                    <img ng-src="{{promotion.image}}" alt="{{promotion.title}}" />
+                    <p>
+                        {{promotion.title}}
+                    </p>
+                </a>
+            </div>
+        </section>
+
+        <nav-footer></nav-footer>
+
+    </div>
+</div>
+
+

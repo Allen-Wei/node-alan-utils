@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>页面出现错误</title>
+    <meta charset="utf-8" />
+    <script src="vendor/angularjs/angular.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <p>&nbsp;</p>
+            </div>
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        页面出现错误
+                    </div>
+                    <div class="panel-body" id="content"></div>
+                    <div class="panel-footer text-right">
+                        <span class="small text-warning">联系管理员</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                
+            </div>
+        </div>
+    </div>
+    <script>
+        (function () {
+            var ele = document.getElementById("content");
+            var search = location.search;
+            var parameters = search.replace("?", "").split("&");
+            for (var i = 0; i < parameters.length; i++) {
+                var keyValue = parameters[0].split('=');
+                if (keyValue.length !== 2) continue;
+
+                var txt = decodeURI(keyValue[1]);
+                var txtNode = document.createTextNode(txt);
+                ele.appendChild(txtNode);
+            }
+
+        })();
+    </script>
+</body>
+</html>

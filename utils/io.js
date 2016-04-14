@@ -1,7 +1,18 @@
 ﻿var fs = require("fs"),
-	utils = require("./utils.js");
+	utils = require("./utils.js"),
+	nodeUtil = require("util");
 
 var io = {
+	
+	/**
+	 * 获取文件名
+	 * @param {string} dir 文件路径
+	 * @returns {string}
+	 */
+	getFileName : function (dir) {
+		var splits = this.combinePath(dir).split("/");
+		return splits[splits.length - 1];
+	},
 	
 	/**
 	 * 合并路径
@@ -16,16 +27,22 @@ var io = {
 			if (value[value.length - 1] === "/") {
 				value = value.substr(0, value.length - 1);
 			}
+			value = value.replace(/\/{2,}/g, "/");
+			
 			return value;
+
 		};
 		
 		var allPaths = [];
 		for (var index = 0; index < arguments.length; index++) {
 			var path = arguments[index];
 			path = trim(path);
+			if (path === "") {
+				continue;
+			}
 			allPaths.push(path);
 		}
-		return allPaths.join("/");
+		return trim(allPaths.join("/"));
 	},
 	
 	/**
@@ -36,70 +53,160 @@ var io = {
 	 * @returns {} 
 	 */
 	concatFiles: function (srcs, dest, keepSrc) {
-		var option = {
-			keep: keepSrc,
-			writeFlags: "a"
-		};
 		srcs.forEach(function (src) {
-			io.moveFile(src, dest, option);
+			io.appendFile(src, dest, keepSrc);
 		});
 		return this;
 	},
 	
 	/**
-	 * 拷贝/移动文件
+	 * 追加文件内容
 	 * @param {string} src 源文件
 	 * @param {string} dest 目标文件
 	 * @param {object} options {keep: boolean, append: bolean}
 	 * @returns {} 
 	 */
-	moveFile: function (src, dest, options) {
-		var defOpts = {
-			keep: false,
-			writeFlags: "w"
-		};
-		utils.extend(defOpts, options);
+	appendFile: function (src, dest, keepSrc) {
 		
-		var read = fs.createReadStream(src);
+		fs.appendFileSync(dest, fs.readFileSync(src));
 		
-		var writeOpt = {
-			flags: options.writeFlags
-		}
-		var write = fs.createWriteStream(dest, writeOpt);
-		read.pipe(write);
-		if (!options.keep) {
+		if (!keepSrc) {
 			fs.unlinkSync(src);
 		}
 		return this;
 	},
 	
+	
 	/**
-     * 删除目录
-     * @param {string} dir 目录
-     * @param {boolean} force 是否强制(递归)删除
+	 * 复制文件/递归复制目录
+	 * @param {string} src 源文件/目录
+	 * @param {string} dest 目标文件/目录地址
+	 * @returns {this}
+	 */
+	copy: function (src, dest) {
+		var src = this.combinePath(src);
+		var dest = this.combinePath(dest);
+		
+		if (!fs.existsSync(src)) {
+			throw "src is not exist.";
+		}
+		
+		
+		var srcState = fs.statSync(src);
+		
+		if (srcState.isDirectory()) {
+			if (fs.existsSync(dest)) {
+				if (!fs.statSync(dest).isDirectory()) {
+					throw "if src is directory, dest must be direcotry too.";
+				}
+			} else {
+				this.mkdir(dest);
+			}
+			
+			//如果源是个目录, 执行目录拷贝.
+			this.getFileAndDirs(src, true, function (state) {
+				var leftPath = state.path.substr(src.length, state.path.length + 1);
+				var destDirPath = io.combinePath(dest, leftPath);
+				if (state.isFile) {
+					io.writeTo(state.path, destDirPath);
+				} else {
+					io.mkdir(destDirPath);
+				}
+				return true;
+			});
+			return this;
+		} else {
+			//如果源是个文件, 执行文件拷贝.
+			
+			if (fs.existsSync(dest)) {
+				var destState = fs.statSync(dest);
+				//如果dest存在
+				if (destState.isDirectory()) {
+					/*
+					 * 如果dest是个目录, 将dest转换成包含文件名的地址.
+					 * 
+					 * copy("./src/filename.ext", "./dest/")
+					 * 
+					 */
+					dest = this.combinePath(dest, this.getFileName(src));
+				}
+			}
+			
+			this.writeTo(src, dest);
+			return this;
+		}
+
+	},
+	
+	/**
+     * 删除目录/文件
+     * @param {string} dir 目录/文件 地址
      * @returns {this} 
      */
-	rm: function (dir, force) {
+	rm: function (dir) {
+		
 		dir = this.combinePath(dir);
 		
-		if (!force) {
+		var dirStat = fs.statSync(dir);
+		if (dirStat.isFile()) {
+			fs.unlinkSync(dir);
+			return this;
+		} else {
+			fs.readdirSync(dir).forEach(function (file) {
+				
+				var path = io.combinePath(dir, file);
+				var stat = fs.statSync(path);
+				
+				if (stat.isDirectory()) {
+					io.rm(path);
+				} else {
+					fs.unlinkSync(path);
+				}
+			});
 			fs.rmdirSync(dir);
 			return this;
 		}
-		
-		fs.readdirSync(dir).forEach(function (file) {
-			var path = io.combinePath(dir, file);
-			var stat = fs.statSync(path);
-			
-			if (stat.isDirectory()) {
-				io.rm(path, force);
+	},
+	
+	/**
+	 * 递归创建目录
+	 * @param {string} dir 目录地址
+	 */
+	mkdir: function (dir) {
+		if (fs.existsSync(dir)) {
+			return this;
+		}
+		dir = this.combinePath(dir);
+		var dirs = dir.split("/");
+		for (var index = 0; index < dirs.length; index++) {
+			var subDir = dirs.slice(0, index + 1).join("/");
+			if (fs.existsSync(subDir)) {
+				var subDirStat = fs.statSync(subDir);
+				if (!subDirStat.isDirectory()) {
+					throw subDir + " is not a directory.";
+				}
 			} else {
-				fs.unlinkSync(path);
+				fs.mkdirSync(subDir);
 			}
-		});
-		io.rm(dir, false);
+		}
 		return this;
-		
+	},
+	
+	/**
+	 * 写到
+	 * @param {string/array} src 源
+	 * @param {string} dest 目标
+	 * @returns {this}
+	 */
+	writeTo: function (src, dest) {
+		if (nodeUtil.isArray(src)) {
+			src.forEach(function (per) {
+				io.writeTo(per, dest);
+			});
+			return this;
+		}
+		fs.writeFileSync(dest, fs.readFileSync(src));
+		return this;
 	},
 	
 	/**
