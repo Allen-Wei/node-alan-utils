@@ -33,5 +33,12 @@ io.concatFiles([
 	"./test/dest/mkdir/home.js"
 ], "./test/dest/mkdir/concat.js", true);
 
+console.log("find fiels:");
+var jsFiles = io.getFiles("./test/dest", true).filter(function (fn) {
+	return fn.indexOf(".js") !== -1;
+}).map(function (fn) {
+	return io.combinePath(fs.realpathSync(fn));
+});
+console.log(jsFiles);
 
 console.log("complete.");
