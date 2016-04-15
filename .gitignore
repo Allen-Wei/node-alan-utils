@@ -39,3 +39,4 @@ node_modules
 *.njsproj
 
 test/dest/**
+*.sln

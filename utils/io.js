@@ -292,11 +292,12 @@ var io = {
 			};
 			if (filter.apply(io, [item, dir])) {
 				dir.children.push(item);
+				
+				if (item.isDir) {
+					io.getFileAndDirs(item, recurse, filter);
+				}
 			}
 			
-			if (item.isDir) {
-				io.getFileAndDirs(item, recurse, filter);
-			}
 		}
 		
 		return dir;
