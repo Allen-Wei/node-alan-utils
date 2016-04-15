@@ -95,6 +95,7 @@ var io = {
 		var srcState = fs.statSync(src);
 		
 		if (srcState.isDirectory()) {
+			//如果src是个目录, dest也必须是个目录.
 			if (fs.existsSync(dest)) {
 				if (!fs.statSync(dest).isDirectory()) {
 					throw "if src is directory, dest must be direcotry too.";
@@ -103,7 +104,7 @@ var io = {
 				this.mkdir(dest);
 			}
 			
-			//如果源是个目录, 执行目录拷贝.
+			//执行目录及目录下的文件拷贝.
 			this.getFileAndDirs(src, true, function (state) {
 				var leftPath = state.path.substr(src.length, state.path.length + 1);
 				var destDirPath = io.combinePath(dest, leftPath);
@@ -141,16 +142,18 @@ var io = {
 	/**
      * 删除目录/文件
      * @param {string} dir 目录/文件 地址
-     * @returns {this} 
+     * @returns {bool} 是否删除
      */
 	rm: function (dir) {
+		if (!fs.existsSync(dir)) {
+			return this;
+		}
 		
 		dir = this.combinePath(dir);
 		
 		var dirStat = fs.statSync(dir);
 		if (dirStat.isFile()) {
 			fs.unlinkSync(dir);
-			return this;
 		} else {
 			fs.readdirSync(dir).forEach(function (file) {
 				
@@ -164,8 +167,8 @@ var io = {
 				}
 			});
 			fs.rmdirSync(dir);
-			return this;
 		}
+		return this;
 	},
 	
 	/**
