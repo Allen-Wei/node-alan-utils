@@ -1,7 +1,9 @@
 ﻿console.log("run test.js...");
 
+
 var fs = require("fs"), 
 	io = require("./utils/io.js");
+
 
 
 console.log("combinePath: ", io.combinePath("./test/backup", "/dir1/", "/dir2", "dir3/"));

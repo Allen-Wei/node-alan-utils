@@ -2,7 +2,7 @@
 	utils = require("./utils.js"),
 	nodeUtil = require("util");
 
-var io = {
+var io = module.exports = {
 	
 	/**
 	 * 获取文件名
@@ -310,20 +310,19 @@ var io = {
 	 * 文本文件内容替换
 	 * @param {string} file 文件路径
 	 * @param {regex|string} pattern 匹配
-	 * @param {string} replaced 替换后的文本
+	 * @param {string|function} replaced 替换后的文本或返回替换文本的函数
 	 * 
 	 * */
 	replace: function(file, pattern, replaced)	{
 		if(!fs.existsSync(file)){
 			throw "file not found: " + file;
 		}
-		var fileText = fs.readFileSync(file);
+		var fileText = fs.readFileSync(file).toString();
  		var replacedText = fileText.replace(pattern, replaced);
-		 if(fileText === replcedText) { return false; }
+		 if(fileText === replacedText) { return false; }
 		 fs.writeFileSync(file, replacedText);
 		 return true;
 	}
 
 };
 
-module.exports = io;
