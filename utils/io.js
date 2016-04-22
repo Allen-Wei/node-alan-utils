@@ -304,6 +304,24 @@ var io = {
 		}
 		
 		return dir;
+	},
+	
+	/**
+	 * 文本文件内容替换
+	 * @param {string} file 文件路径
+	 * @param {regex|string} pattern 匹配
+	 * @param {string} replaced 替换后的文本
+	 * 
+	 * */
+	replace: function(file, pattern, replaced)	{
+		if(!fs.existsSync(file)){
+			throw "file not found: " + file;
+		}
+		var fileText = fs.readFileSync(file);
+ 		var replacedText = fileText.replace(pattern, replaced);
+		 if(fileText === replcedText) { return false; }
+		 fs.writeFileSync(file, replacedText);
+		 return true;
 	}
 
 };

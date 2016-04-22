@@ -39,6 +39,7 @@ var jsFiles = io.getFiles("./test/dest", true).filter(function (fn) {
 }).map(function (fn) {
 	return io.combinePath(fs.realpathSync(fn));
 });
+
 console.log(jsFiles);
 
 console.log("complete.");
